@@ -7,7 +7,8 @@
     <title>Calculadora de Raciones Diabetes</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <meta name="theme-color" content="#0d0f1a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -16,184 +17,313 @@
 </head>
 
 <body>
-    <div class="app-container">
-        <header>
-            <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" title="Cambiar tema">
-                <span class="toggle-thumb">🌙</span>
-            </button>
-            <span class="header-icon">🩺</span>
-            <h1>Control de Raciones</h1>
-            <p class="subtitle">Calculadora de Hidratos de Carbono</p>
-        </header>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand-block">
+                <div class="brand-icon">🩺</div>
+                <div class="brand-copy">
+                    <span class="brand-kicker">Diabetes</span>
+                    <h2>GluCare</h2>
+                </div>
+            </div>
 
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="basic">Alimentos Básicos</button>
-            <button class="tab-btn" data-tab="fastfood">Comida Rápida</button>
-            <button class="tab-btn" data-tab="menu">Tu Menú (<span id="menu-count-badge">0</span>)</button>
+            <nav class="sidebar-nav" aria-label="Menú principal">
+                <button class="tab-btn active" data-tab="basic">
+                    <span class="nav-icon">🥗</span>
+                    <span>Alimentos Básicos</span>
+                </button>
+                <button class="tab-btn" data-tab="fastfood">
+                    <span class="nav-icon">🍔</span>
+                    <span>Comida Rápida</span>
+                </button>
+                <button class="tab-btn" data-tab="menu">
+                    <span class="nav-icon">📋</span>
+                    <span>Tu Menú</span>
+                    <span id="menu-count-badge" class="nav-badge">0</span>
+                </button>
+                <button class="tab-btn" data-tab="graphs">
+                    <span class="nav-icon">📊</span>
+                    <span>Gráficos</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-user">
+                <div class="user-avatar">AG</div>
+                <div class="user-meta">
+                    <strong>Ana García</strong>
+                    <small>Paciente</small>
+                </div>
+                <button class="logout-btn">Logout</button>
+            </div>
+        </aside>
+
+        <div class="main-panel">
+            <header class="topbar">
+                <div class="topbar-copy">
+                    <span class="eyebrow">Seguimiento terapéutico</span>
+                    <h1>Control de Raciones</h1>
+                </div>
+
+                <div class="topbar-actions">
+                    <button class="login-btn" type="button">Iniciar sesión</button>
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" title="Cambiar tema">
+                        <span class="toggle-thumb">🌙</span>
+                    </button>
+                </div>
+            </header>
+
+            <main class="content-area">
+                <section id="tab-basic" class="tab-content active">
+                    <div class="search-section">
+                        <div class="input-group">
+                            <label for="basic-search">Buscar Alimento</label>
+                            <input type="text" id="basic-search" placeholder="Ej: Pan, Arroz, Cerveza..."
+                                autocomplete="off">
+                            <div id="basic-results" class="results-dropdown hidden"></div>
+                        </div>
+                    </div>
+
+                    <div id="basic-calculator" class="calculator-card hidden">
+                        <div class="selected-header">
+                            <h2 id="basic-name">Nombre Alimento</h2>
+                            <span id="basic-category" class="badge">Categoría</span>
+                        </div>
+
+                        <div class="input-row">
+                            <div class="input-wrapper">
+                                <label>Cantidad (Gramos/ml)</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="basic-input" placeholder="0" min="0">
+                                    <span class="unit">g/ml</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="result-display">
+                            <div class="result-box primary">
+                                <span class="label">Raciones (10g HC)</span>
+                                <span class="value" id="basic-result-rations">0.0</span>
+                            </div>
+                            <div class="result-box secondary">
+                                <span class="label">Hidratos Totales</span>
+                                <span class="value" id="basic-result-carbs">0g</span>
+                            </div>
+                        </div>
+
+                        <button id="btn-add-basic" class="btn-add-menu">Añadir a mi Menú</button>
+
+                        <p class="info-text">
+                            <span id="basic-info-grams">X</span>g de este alimento = <strong><span
+                                    id="basic-info-carbs">Y</span>g HC</strong> (1 Ración)
+                        </p>
+                    </div>
+                </section>
+
+                <section id="tab-fastfood" class="tab-content">
+                    <div class="search-section">
+                        <div class="input-group">
+                            <label for="fastfood-select">Selecciona Producto</label>
+                            <select id="fastfood-select">
+                                <option value="">-- Elige una opción --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="fastfood-calculator" class="calculator-card hidden">
+                        <div class="selected-header">
+                            <h2 id="ff-name">Nombre Producto</h2>
+                            <span id="ff-brand" class="badge brand-badge">Marca</span>
+                        </div>
+
+                        <div class="input-row">
+                            <div class="input-wrapper">
+                                <label>Cantidad (Unidades)</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="ff-input" placeholder="1" min="1" value="1">
+                                    <span class="unit">ud</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="ff-components" class="composite-options">
+                            <h3>Personalizar Ingredientes:</h3>
+                            <div id="ff-components-list" class="components-list"></div>
+                        </div>
+
+                        <div class="result-display">
+                            <div class="result-box primary">
+                                <span class="label">Raciones (10g HC)</span>
+                                <span class="value" id="ff-result-rations">0.0</span>
+                            </div>
+                            <div class="result-box secondary">
+                                <span class="label">Hidratos Totales</span>
+                                <span class="value" id="ff-result-carbs">0g</span>
+                            </div>
+                        </div>
+
+                        <div class="ff-confirm-actions">
+                            <button id="btn-ff-reject" class="btn-ff-reject">
+                                <span class="btn-icon">✕</span> Cancelar
+                            </button>
+                            <button id="btn-ff-accept" class="btn-ff-accept">
+                                <span class="btn-icon">✓</span> Añadir a lista
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="ff-list-section">
+                        <div class="ff-list-header">
+                            <div class="ff-list-title">
+                                <span class="ff-list-icon">📋</span>
+                                <h3>Lista de pedido</h3>
+                            </div>
+                            <span id="ff-list-badge" class="ff-list-badge">0</span>
+                        </div>
+
+                        <div id="ff-list" class="ff-list">
+                            <div class="empty-state ff-empty">
+                                <p>Selecciona productos para añadirlos a tu lista.</p>
+                            </div>
+                        </div>
+
+                        <div id="ff-list-actions" class="ff-list-actions hidden">
+                            <button id="btn-ff-clear-list" class="btn-ff-clear-list">🗑️ Borrar lista</button>
+                            <button id="btn-ff-load-menu" class="btn-ff-load-menu">➕ Cargar al Menú</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="tab-menu" class="tab-content">
+                    <div class="menu-container">
+                        <div id="menu-list" class="menu-list">
+                            <div class="empty-state">
+                                <p>Tu menú está vacío. Añade alimentos desde las otras pestañas.</p>
+                            </div>
+                        </div>
+
+                        <div class="menu-total-card">
+                            <h3>Resumen Total</h3>
+                            <div class="total-grid">
+                                <div class="total-item">
+                                    <span class="total-label">Raciones Totales</span>
+                                    <span class="total-value" id="menu-total-rations">0.0</span>
+                                </div>
+                                <div class="total-item">
+                                    <span class="total-label">Hidratos Totales</span>
+                                    <span class="total-value" id="menu-total-carbs">0g</span>
+                                </div>
+                            </div>
+                            <button id="btn-save-menu" class="btn-save-menu">Guardar menú</button>
+                            <button id="btn-clear-menu" class="btn-clear">Borrar Todo</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="tab-graphs" class="tab-content">
+                    <div class="graph-card">
+                        <div class="graph-header">
+                            <div>
+                                <span class="eyebrow">Resumen semanal</span>
+                                <h2>Raciones diarias</h2>
+                            </div>
+
+                            <div class="week-picker">
+                                <label class="sr-only" for="graph-week-select">Selecciona semana</label>
+                                <select id="graph-week-select">
+                                    <option value="current">Semana actual</option>
+                                    <option value="previous">Semana anterior</option>
+                                    <option value="older">Hace 2 semanas</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="chart-summary">
+                            <div class="summary-pill">
+                                <span>Total</span>
+                                <strong id="chart-total">0.0</strong>
+                            </div>
+                            <div class="summary-pill">
+                                <span>Media/día</span>
+                                <strong id="chart-average">0.0</strong>
+                            </div>
+                        </div>
+
+                        <div class="chart-bars" id="chart-bars"></div>
+
+                        <div class="daily-summary">
+                            <div class="daily-summary-header">
+                                <h3>Resumen del día</h3>
+                                <span id="daily-summary-date">-</span>
+                            </div>
+                            <div class="daily-summary-meta">
+                                <div class="summary-chip">
+                                    <span>Raciones</span>
+                                    <strong id="daily-summary-rations">0.0</strong>
+                                </div>
+                                <div class="summary-chip">
+                                    <span>HC</span>
+                                    <strong id="daily-summary-carbs">0g</strong>
+                                </div>
+                            </div>
+                            <div id="daily-summary-list" class="daily-summary-list"></div>
+                        </div>
+
+                        <div class="chart-legend">
+                            <span><i class="dot dot-primary"></i> Raciones</span>
+                            <span><i class="dot dot-accent"></i> Meta 5</span>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <footer>
+                <p>1 Ración = 10g de Hidratos de Carbono</p>
+            </footer>
         </div>
+    </div>
 
-        <main>
-            <!-- SECCIÓN 1: ALIMENTOS BÁSICOS -->
-            <section id="tab-basic" class="tab-content active">
-                <div class="search-section">
-                    <div class="input-group">
-                        <label for="basic-search">Buscar Alimento</label>
-                        <input type="text" id="basic-search" placeholder="Ej: Pan, Arroz, Cerveza..."
-                            autocomplete="off">
-                        <div id="basic-results" class="results-dropdown hidden"></div>
-                    </div>
+    <div id="auth-modal" class="auth-modal hidden" aria-hidden="true">
+        <div class="auth-backdrop" data-close-auth="true"></div>
+        <div class="auth-panel" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+            <button class="auth-close" aria-label="Cerrar" data-close-auth="true">×</button>
+
+            <div class="auth-header">
+                <span class="auth-kicker">Acceso</span>
+                <h3 id="auth-title">Inicia sesión</h3>
+            </div>
+
+            <button class="auth-google" type="button">
+                <span class="google-mark">G</span>
+                Continuar con Google
+            </button>
+
+            <div class="auth-divider"><span>o</span></div>
+
+            <form id="auth-form" class="auth-form">
+                <div class="auth-field hidden" id="auth-name-field">
+                    <label for="auth-name">Nombre</label>
+                    <input id="auth-name" type="text" placeholder="Tu nombre">
                 </div>
 
-                <div id="basic-calculator" class="calculator-card hidden">
-                    <div class="selected-header">
-                        <h2 id="basic-name">Nombre Alimento</h2>
-                        <span id="basic-category" class="badge">Categoría</span>
-                    </div>
-
-                    <div class="input-row">
-                        <div class="input-wrapper">
-                            <label>Cantidad (Gramos/ml)</label>
-                            <div class="input-with-unit">
-                                <input type="number" id="basic-input" placeholder="0" min="0">
-                                <span class="unit">g/ml</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="result-display">
-                        <div class="result-box primary">
-                            <span class="label">Raciones (10g HC)</span>
-                            <span class="value" id="basic-result-rations">0.0</span>
-                        </div>
-                        <div class="result-box secondary">
-                            <span class="label">Hidratos Totales</span>
-                            <span class="value" id="basic-result-carbs">0g</span>
-                        </div>
-                    </div>
-
-                    <button id="btn-add-basic" class="btn-add-menu">Añadir a mi Menú</button>
-
-                    <p class="info-text">
-                        <span id="basic-info-grams">X</span>g de este alimento = <strong><span
-                                id="basic-info-carbs">Y</span>g HC</strong> (1 Ración)
-                    </p>
-                </div>
-            </section>
-
-            <!-- SECCIÓN 2: COMIDA RÁPIDA -->
-            <section id="tab-fastfood" class="tab-content">
-                <div class="search-section">
-                    <div class="input-group">
-                        <label for="fastfood-select">Selecciona Producto</label>
-                        <select id="fastfood-select">
-                            <option value="">-- Elige una opción --</option>
-                            <!-- Options injected by JS -->
-                        </select>
-                    </div>
+                <div class="auth-field">
+                    <label for="auth-email">Correo electrónico</label>
+                    <input id="auth-email" type="email" placeholder="tu@correo.com" autocomplete="email" required>
                 </div>
 
-                <div id="fastfood-calculator" class="calculator-card hidden">
-                    <div class="selected-header">
-                        <h2 id="ff-name">Nombre Producto</h2>
-                        <span id="ff-brand" class="badge brand-badge">Marca</span>
-                    </div>
-
-                    <div class="input-row">
-                        <div class="input-wrapper">
-                            <label>Cantidad (Unidades)</label>
-                            <div class="input-with-unit">
-                                <input type="number" id="ff-input" placeholder="1" min="1" value="1">
-                                <span class="unit">ud</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="ff-components" class="composite-options">
-                        <h3>Personalizar Ingredientes:</h3>
-                        <div id="ff-components-list" class="components-list">
-                            <!-- Checkboxes injected by JS -->
-                        </div>
-                    </div>
-
-                    <div class="result-display">
-                        <div class="result-box primary">
-                            <span class="label">Raciones (10g HC)</span>
-                            <span class="value" id="ff-result-rations">0.0</span>
-                        </div>
-                        <div class="result-box secondary">
-                            <span class="label">Hidratos Totales</span>
-                            <span class="value" id="ff-result-carbs">0g</span>
-                        </div>
-                    </div>
-
-                    <div class="ff-confirm-actions">
-                        <button id="btn-ff-reject" class="btn-ff-reject">
-                            <span class="btn-icon">✕</span> Cancelar
-                        </button>
-                        <button id="btn-ff-accept" class="btn-ff-accept">
-                            <span class="btn-icon">✓</span> Añadir a lista
-                        </button>
-                    </div>
+                <div class="auth-field">
+                    <label for="auth-password">Contraseña</label>
+                    <input id="auth-password" type="password" placeholder="••••••••" autocomplete="current-password"
+                        required>
                 </div>
 
-                <!-- Lista de Comida Rápida -->
-                <div class="ff-list-section">
-                    <div class="ff-list-header">
-                        <div class="ff-list-title">
-                            <span class="ff-list-icon">📋</span>
-                            <h3>Lista de pedido</h3>
-                        </div>
-                        <span id="ff-list-badge" class="ff-list-badge">0</span>
-                    </div>
+                <button type="submit" class="auth-submit" id="auth-submit-btn">Entrar</button>
+            </form>
 
-                    <div id="ff-list" class="ff-list">
-                        <div class="empty-state ff-empty">
-                            <p>Selecciona productos para añadirlos a tu lista.</p>
-                        </div>
-                    </div>
-
-                    <div id="ff-list-actions" class="ff-list-actions hidden">
-                        <button id="btn-ff-clear-list" class="btn-ff-clear-list">
-                            🗑️ Borrar lista
-                        </button>
-                        <button id="btn-ff-load-menu" class="btn-ff-load-menu">
-                            ➕ Cargar al Menú
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECCIÓN 3: TU MENÚ -->
-            <section id="tab-menu" class="tab-content">
-                <div class="menu-container">
-                    <div id="menu-list" class="menu-list">
-                        <div class="empty-state">
-                            <p>Tu menú está vacío. Añade alimentos desde las otras pestañas.</p>
-                        </div>
-                        <!-- Items injected by JS -->
-                    </div>
-
-                    <div class="menu-total-card">
-                        <h3>Resumen Total</h3>
-                        <div class="total-grid">
-                            <div class="total-item">
-                                <span class="total-label">Raciones Totales</span>
-                                <span class="total-value" id="menu-total-rations">0.0</span>
-                            </div>
-                            <div class="total-item">
-                                <span class="total-label">Hidratos Totales</span>
-                                <span class="total-value" id="menu-total-carbs">0g</span>
-                            </div>
-                        </div>
-                        <button id="btn-clear-menu" class="btn-clear">Borrar Todo</button>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <footer>
-            <p>1 Ración = 10g de Hidratos de Carbono</p>
-        </footer>
+            <p class="auth-switch">
+                <span id="auth-switch-text">¿No tienes cuenta?</span>
+                <button type="button" class="auth-link" id="auth-toggle-mode">Regístrate</button>
+            </p>
+        </div>
     </div>
 
     <!-- Toast notification -->
